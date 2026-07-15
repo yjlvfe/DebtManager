@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مدير الديون</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="lib/chart.umd.min.js"></script>
+</head>
+<body class="theme-dark">
+  <!-- Ambient background orbs -->
+  <div class="ambient" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div id="app">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="20" height="14" rx="3"/>
+            <path d="M16 13h.01"/>
+            <path d="M2 10h20"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>مدير الديون</h1>
+          <span class="brand-sub">حساباتك بدقّة</span>
+        </div>
+      </div>
+      <ul class="sidebar-menu">
+        <li data-page="dashboard" class="active">
+          <span class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="9" rx="1.5"/>
+              <rect x="14" y="3" width="7" height="5" rx="1.5"/>
+              <rect x="14" y="12" width="7" height="9" rx="1.5"/>
+              <rect x="3" y="16" width="7" height="5" rx="1.5"/>
+            </svg>
+          </span>
+          <span class="label">لوحة التحكم</span>
+        </li>
+        <li data-page="clients">
+          <span class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </span>
+          <span class="label">العملاء</span>
+        </li>
+        <li data-page="settings">
+          <span class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </span>
+          <span class="label">الإعدادات</span>
+        </li>
+      </ul>
+      <div class="sidebar-footer" id="app-footer">
+        <div class="credit-name">تم البرمجة بواسطة هارون القحطاني</div>
+        <div class="credit-phone">رقم التواصل: 784853082</div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+      <!-- ==================== DASHBOARD PAGE ==================== -->
+      <section id="page-dashboard" class="page active">
+        <div class="page-header">
+          <div>
+            <h2>لوحة التحكم</h2>
+            <p class="page-sub">نظرة عامة على ديونك ومعاملاتك</p>
+          </div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card stat-card owed-card">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 19V5"/><path d="m5 12 7 7 7-7"/>
+              </svg>
+            </div>
+            <div class="stat-body">
+              <div class="stat-label">ديون عليك <span class="dot dot-danger"></span></div>
+              <div class="stat-value" id="dash-total-owed">0</div>
+              <div class="stat-sub" id="dash-owed-detail">دولار: 0 | سعودي: 0 | يمني: 0</div>
+            </div>
+          </div>
+          <div class="card stat-card to-pay-card">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14"/><path d="m19 12-7-7-7 7"/>
+              </svg>
+            </div>
+            <div class="stat-body">
+              <div class="stat-label">ديون لك <span class="dot dot-success"></span></div>
+              <div class="stat-value" id="dash-total-to-pay">0</div>
+              <div class="stat-sub" id="dash-to-pay-detail">دولار: 0 | سعودي: 0 | يمني: 0</div>
+            </div>
+          </div>
+          <div class="card stat-card net-card">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/>
+              </svg>
+            </div>
+            <div class="stat-body">
+              <div class="stat-label">صافي الديون</div>
+              <div class="stat-value" id="dash-net">0</div>
+              <div class="stat-sub" id="dash-net-label">لك / عليك</div>
+            </div>
+          </div>
+          <div class="card stat-card clients-card">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div class="stat-body">
+              <div class="stat-label">عدد العملاء</div>
+              <div class="stat-value" id="dash-clients">0</div>
+              <div class="stat-sub">عميل مسجّل</div>
+            </div>
+          </div>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-card-header">
+            <h3>صافي آخر ٧ أيام</h3>
+            <span class="chart-hint">اضغط على أي عمود لعرض تفاصيل اليوم</span>
+          </div>
+          <canvas id="transactionsChart"></canvas>
+        </div>
+        <div class="charts-row">
+          <div class="card chart-card chart-half">
+            <div class="chart-card-header"><h3>توزيع الديون حسب العملة</h3></div>
+            <canvas id="currencyPieChart"></canvas>
+          </div>
+          <div class="card chart-card chart-half">
+            <div class="chart-card-header"><h3>مقارنة الديون (له / عليه)</h3></div>
+            <canvas id="directionBarChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== CLIENTS PAGE ==================== -->
+      <section id="page-clients" class="page">
+        <div class="page-header">
+          <div>
+            <h2>العملاء</h2>
+            <p class="page-sub" id="clients-count-sub">إدارة عملائك وديونهم</p>
+          </div>
+          <button class="btn btn-primary" id="btn-add-client">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            إضافة عميل
+          </button>
+        </div>
+        <div class="search-bar">
+          <div class="search-field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" id="client-search" placeholder="ابحث بالاسم أو رقم التلفون..." />
+          </div>
+          <div class="sort-controls">
+            <label class="sort-label" for="sort-by">ترتيب حسب:</label>
+            <select id="sort-by">
+              <option value="name">الاسم</option>
+              <option value="modified">تاريخ التعديل</option>
+              <option value="net">المبلغ الصافي</option>
+            </select>
+            <button class="btn btn-secondary btn-sort-dir" id="btn-sort-dir" title="عكس الترتيب">
+              <span class="sort-arrow">⇅</span>
+              <span id="sort-dir-label">تنازلي</span>
+            </button>
+          </div>
+        </div>
+        <div id="clients-list" class="clients-list"></div>
+      </section>
+
+      <!-- ==================== CLIENT DETAIL PAGE ==================== -->
+      <section id="page-client-detail" class="page">
+        <div class="page-header detail-header">
+          <div class="detail-title">
+            <button class="btn btn-secondary btn-icon" id="btn-back-clients" title="رجوع">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+            <div class="detail-avatar" id="detail-avatar">؟</div>
+            <div>
+              <h2 id="detail-client-name">اسم العميل</h2>
+              <p class="page-sub" id="detail-client-phone"></p>
+            </div>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary" id="btn-add-debt">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+              إضافة دين
+            </button>
+            <button class="btn btn-success" id="btn-export-pdf">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
+              كشف PDF
+            </button>
+            <button class="btn btn-secondary" id="btn-edit-client">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+              تعديل
+            </button>
+            <button class="btn btn-danger" id="btn-delete-client">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              حذف
+            </button>
+          </div>
+        </div>
+        <div class="client-summary">
+          <div class="summary-box owed-box">
+            <span>ديون عليك <span class="dot dot-danger"></span></span>
+            <strong id="detail-total-owed">0</strong>
+          </div>
+          <div class="summary-box to-pay-box">
+            <span>ديون لك <span class="dot dot-success"></span></span>
+            <strong id="detail-total-to-pay">0</strong>
+          </div>
+          <div class="summary-box" id="detail-net-summary"></div>
+        </div>
+        <div class="table-card">
+          <table id="transactions-table">
+            <thead>
+              <tr>
+                <th>الصنف</th>
+                <th>المبلغ</th>
+                <th>العملة</th>
+                <th>المبلغ باليمني</th>
+                <th>الاتجاه</th>
+                <th>التاريخ</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="transactions-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ==================== SETTINGS PAGE ==================== -->
+      <section id="page-settings" class="page">
+        <div class="page-header">
+          <div>
+            <h2>الإعدادات</h2>
+            <p class="page-sub">أسعار الصرف، المظهر، والنسخ الاحتياطي</p>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3>أسعار الصرف</h3>
+          <div class="rates-row">
+            <div class="form-group">
+              <label for="usd-rate">1 دولار أمريكي (USD) = ? ريال يمني</label>
+              <input type="number" id="usd-rate" step="0.01" min="0" />
+            </div>
+            <div class="form-group">
+              <label for="sar-rate">1 ريال سعودي (SAR) = ? ريال يمني</label>
+              <input type="number" id="sar-rate" step="0.01" min="0" />
+            </div>
+          </div>
+          <button class="btn btn-primary" id="btn-save-rates">حفظ أسعار الصرف</button>
+        </div>
+        <div class="settings-section">
+          <h3>المظهر</h3>
+          <div class="theme-selector">
+            <button class="theme-btn" data-theme="dark">🌙 الوضع الداكن</button>
+            <button class="theme-btn" data-theme="light">☀️ الوضع الفاتح</button>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3>النسخ الاحتياطي</h3>
+          <div class="form-group">
+            <label for="backup-path">مسار حفظ النسخ الاحتياطية</label>
+            <div class="input-group">
+              <input type="text" id="backup-path" placeholder="اختر مسار النسخ الاحتياطي..." readonly>
+              <button id="browse-btn">تصفح...</button>
+            </div>
+          </div>
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" id="auto-backup" />
+              النسخ التلقائي عند الإغلاق
+            </label>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="btn-save-backup-path">حفظ المسار</button>
+            <button class="btn btn-success" id="btn-backup-now">حفظ نسخة احتياطية الآن</button>
+            <button class="btn btn-secondary" id="btn-restore-backup">استعادة نسخة احتياطية</button>
+          </div>
+          <div id="backup-status"></div>
+        </div>
+        <div class="settings-section">
+          <h3>معلومات التطبيق</h3>
+          <p>تطبيق إدارة الديون والمحاسبة</p>
+          <p>الإصدار: 1.0.0</p>
+        </div>
+      </section>
+
+      <!-- ==================== ADD CLIENT MODAL ==================== -->
+      <div id="modal-add-client" class="modal">
+        <div class="modal-content">
+          <span class="modal-close">&times;</span>
+          <h2>إضافة عميل جديد</h2>
+          <form id="form-add-client">
+            <div class="form-group">
+              <label for="client-name">الاسم *</label>
+              <input type="text" id="client-name" required placeholder="اسم العميل" />
+            </div>
+            <div class="form-group">
+              <label for="client-phone">رقم التلفون</label>
+              <input type="text" id="client-phone" placeholder="رقم التلفون (اختياري)" />
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">إضافة</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ==================== ADD DEBT MODAL ==================== -->
+      <div id="modal-add-debt" class="modal">
+        <div class="modal-content">
+          <span class="modal-close">&times;</span>
+          <h2>إضافة دين جديد</h2>
+          <form id="form-add-debt">
+            <div class="form-group">
+              <label for="debt-item">اسم الصنف *</label>
+              <input type="text" id="debt-item" required placeholder="مثال: جوال S22 Ultra" />
+            </div>
+            <div class="form-group">
+              <label for="debt-amount">المبلغ *</label>
+              <input type="number" id="debt-amount" required step="0.01" min="0" placeholder="0.00" />
+            </div>
+            <div class="form-group">
+              <label for="debt-currency">العملة</label>
+              <select id="debt-currency">
+                <option value="YER">ريال يمني (YER)</option>
+                <option value="SAR">ريال سعودي (SAR)</option>
+                <option value="USD">دولار أمريكي (USD)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>اتجاه الدين</label>
+              <div class="direction-options" id="add-direction-options">
+                <label class="direction-option dir-to-pay" data-direction="عليه">
+                  <input type="radio" name="debt-direction" value="عليه" checked>
+                  <span class="radio-text">عليه (دين لك)</span>
+                  <span class="radio-desc">العميل يعطيك — موجب</span>
+                  <span class="check-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  </span>
+                </label>
+                <label class="direction-option dir-owed" data-direction="له">
+                  <input type="radio" name="debt-direction" value="له">
+                  <span class="radio-text">له (دين عليك)</span>
+                  <span class="radio-desc">أنت تعطي العميل — سالب</span>
+                  <span class="check-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div class="conversion-preview" id="conversion-preview">
+              <span>سعر الصرف: </span>
+              <span id="preview-rate">-</span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">إضافة الدين</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ==================== EDIT CLIENT MODAL ==================== -->
+      <div id="modal-edit-client" class="modal">
+        <div class="modal-content">
+          <span class="modal-close">&times;</span>
+          <h2>تعديل بيانات العميل</h2>
+          <form id="form-edit-client">
+            <div class="form-group">
+              <label for="edit-client-name">الاسم *</label>
+              <input type="text" id="edit-client-name" required placeholder="اسم العميل" />
+            </div>
+            <div class="form-group">
+              <label for="edit-client-phone">رقم التلفون</label>
+              <input type="text" id="edit-client-phone" placeholder="رقم التلفون (اختياري)" />
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">حفظ التعديلات</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ==================== DAY DETAILS MODAL ==================== -->
+      <div id="modal-day-details" class="modal">
+        <div class="modal-content">
+          <span class="modal-close">&times;</span>
+          <h2 id="day-details-title">تفاصيل اليوم</h2>
+          <div id="day-details-content"></div>
+        </div>
+      </div>
+
+      <!-- ==================== DUPLICATE CLIENT MODAL ==================== -->
+      <div id="modal-duplicate-client" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+          <span class="modal-close">&times;</span>
+          <h2>⚠️ عميل مكرر</h2>
+          <div id="duplicate-message" class="duplicate-message"></div>
+          <div class="duplicate-actions">
+            <button type="button" class="btn btn-primary" id="btn-duplicate-edit">تعديل الإدخال</button>
+            <button type="button" class="btn btn-secondary" id="btn-duplicate-navigate">فتح صفحة العميل</button>
+            <button type="button" class="btn btn-danger" id="btn-duplicate-close">إغلاق</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== CONFIRM MODAL ==================== -->
+      <div id="modal-confirm" class="modal">
+        <div class="modal-content confirm-content">
+          <div class="confirm-icon" id="confirm-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          </div>
+          <h2 id="confirm-title">تأكيد</h2>
+          <p id="confirm-message"></p>
+          <div class="confirm-actions">
+            <button type="button" class="btn btn-danger" id="btn-confirm-yes">تأكيد</button>
+            <button type="button" class="btn btn-secondary" id="btn-confirm-no">إلغاء</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toasts -->
+  <div id="toast-container" aria-live="polite"></div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

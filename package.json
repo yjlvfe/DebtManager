@@ -1,0 +1,64 @@
+{
+  "name": "debt-manager",
+  "version": "1.0.0",
+  "description": "تطبيق إدارة الديون والمحاسبة",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron . --no-sandbox",
+    "build": "electron-builder --win portable --x64",
+    "rebuild": "npm rebuild better-sqlite3 --platform=win32 --arch=x64"
+  },
+  "build": {
+    "appId": "com.debtmanager.app",
+    "productName": "مدير الديون",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "database.js",
+      "index.html",
+      "style.css",
+      "renderer.js",
+      "package.json",
+      "lib/chart.umd.min.js",
+      "build/icon.ico"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/fonts/",
+        "to": "assets/fonts/",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "مدير الديون ${version}.${ext}",
+      "signAndEditExecutable": false,
+      "executableName": "مدير الديون"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "pdfkit": "^0.15.0"
+  },
+  "devDependencies": {
+    "electron": "28.3.3",
+    "electron-builder": "^24.0.0"
+  }
+}
